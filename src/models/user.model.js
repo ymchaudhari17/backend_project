@@ -41,14 +41,14 @@ const userSchema=new Schema({
         required:[true,'Password is required'],
     },
     refreshToken:{
-        Type:String
+        type:String
         
     }
 },{timestamps:true})
 userSchema.pre("save",async function(next){
     if(!this.isModified("password")) return next();
 this.password= await bcrypt.hash(this.password,10)
-next()
+
 })
 userSchema.methods.isPasswordCorrect=async function(password){
      return await bcrypt.compare(password,this.password)
@@ -62,7 +62,7 @@ return jwt.sign({
 },
 process.env.ACCESS_TOKEN_SECRET,
 {
-    exipresIn:process.env.ACCESS_TOKEN_EXPIRY
+    expiresIn:process.env.ACCESS_TOKEN_EXPIRY
 }
 )
 }
@@ -75,7 +75,7 @@ return jwt.sign({
 },
 process.env.REFRESH_TOKEN_SECRET,
 {
-    exipresIn:process.env.REFRESH_TOKEN_EXPIRY
+    expiresIn:process.env.REFRESH_TOKEN_EXPIRY
 }
 )
 }
